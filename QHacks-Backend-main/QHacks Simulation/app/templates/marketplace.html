@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace Simulation</title>
+</head>
+<body>
+    <h1>Fake Housing Marketplace</h1>
+    <p>Browse listings and select one to chat with the landlord.</p>
+    <div class="listings">
+        {% for listing_id, listing in listings.items() %}
+        <div class="listing" {% if listing.suspicious %}style="border: 2px solid red;"{% endif %}>
+            <h3><a href="/chat?listing={{ listing_id }}">{{ listing.title }}</a></h3>
+            <p><strong>Listed by:</strong> {{ listing.lister_name }}</p>
+            <p><strong>Price:</strong> ${{ listing.price }}</p>
+            <p><strong>Bedrooms:</strong> {{ listing.bedrooms }}</p>
+            <p>{{ listing.description }}</p>
+            {% if listing.suspicious %}
+            <p style="color:red;">⚠️ Suspicious Listing - Be Cautious! ⚠️</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <style>
+        .listings {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .listing {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            width: 80%;
+            box-shadow: 3px 3px 5px #ddd;
+        }
+        .listing h3 a {
+            text-decoration: none;
+        }
+        .listing p {
+            margin: 5px 0;
+        }
+    </style>
+</body>
+</html>

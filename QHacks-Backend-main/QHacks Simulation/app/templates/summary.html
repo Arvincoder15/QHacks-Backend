@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Performance Summary</title>
+</head>
+<body>
+    <h1>Your Conversation Summary</h1>
+
+    <h2>Conversation History:</h2>
+    <div id="conversation-summary">
+        {% for message in conversation %}
+        <p><strong>You:</strong> {{ message.user }}</p>
+        <p><strong>Landlord:</strong> {{ message.landlord }}</p>
+        <hr
+        {% endfor %}
+    </div>
+
+    <h2>Feedback on your conversation:</h2>
+
+<h3>Good Questions Asked:</h3>
+<ul>
+    {% for question in feedback.good_questions %}
+        <li>{{ question }}</li>
+    {% endfor %}
+</ul>
+
+<h3>Missed Questions:</h3>
+<ul>
+    {% for question in feedback.missed_questions %}
+        <li>{{ question }}</li>
+    {% endfor %}
+</ul>
+
+<h3>Red Flags</h3>
+<ul>
+    {% for flag in feedback.red_flags %}
+            <li>{{ flag }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Performance Grade: {{ feedback.final_grade }}</h2>
+</ul>
+
+</body>
+</html>

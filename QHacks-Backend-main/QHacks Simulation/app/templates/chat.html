@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Landlord</title>
+</head>
+<body>
+    <h1>Chat with Landlord</h1>
+
+    <div id="chat-container">
+        <div id="conversation">
+            </div>
+        <form id="message-form">
+            <label for="user_message">Your Message:</label>
+            <input type="text" id="user_message" name="user_message" required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <button onclick="endChat()">End Chat</button>
+
+    <script>
+        document.getElementById('message-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const userMessageInput = document.getElementById('user_message');
+            const userMessage = userMessageInput.value;
+            const conversationDiv = document.getElementById('conversation');
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.textContent = 'You: ' + userMessage;
+            conversationDiv.appendChild(userMsgDiv);
+
+
+            fetch('/chat?listing={{ listing_id }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: userMessage })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.response) {
+                    const aiResponseDiv = document.createElement('div');
+                    // aiResponseDiv.textContent = 'Landlord: ' + data.response;
+                    aiResponseDiv.textContent = data.response;
+                    conversationDiv.appendChild(aiResponseDiv);
+                    userMessageInput.value = '';
+                } else if (data.error) {
+                    console.error('Error:', data.error);
+                    alert('Error sending message: ' + data.error);
+                }
+            });
+        });
+
+        function endChat() {
+            window.location.href = '/summary'; // Redirect to summary page
+        }
+    </script>
+</body>
+</html>
